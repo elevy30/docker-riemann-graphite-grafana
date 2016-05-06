@@ -61,10 +61,9 @@ RUN cp /opt/graphite/conf/storage-schemas.conf.example /opt/graphite/conf/storag
 
 # Nginx and Uwsgi
 ADD nginx/graphite /etc/nginx/sites-available/graphite
-ADD uwsgi/graphite /etc/uwsgi/apps-available/graphite
-RUN ln -s /etc/nginx/sites-available/graphite /etc/nginx/sites-enabled/graphite
-RUN ln -s /etc/uwsgi/apps-available/graphite /etc/uwsgi/apps-enabled/graphite
-RUN mkdir -p /var/run/uwsgi/app/graphite
+ADD uwsgi/graphite.ini /etc/uwsgi/apps-available/graphite.ini
+RUN ln -s /etc/nginx/sites-available/graphite /etc/nginx/sites-enabled
+RUN ln -s /etc/uwsgi/apps-available/graphite.ini /etc/uwsgi/apps-enabled
 
 # init
 WORKDIR /opt
