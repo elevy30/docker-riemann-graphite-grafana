@@ -39,6 +39,7 @@ RUN rm grafana-3.0.0-beta61461918338.linux-x64.tar.gz
 RUN ln -s grafana-3.0.0-beta61461918338 grafana
 
 # Graphite
+WORKDIR /root
 RUN wget https://pypi.python.org/packages/ad/30/5ab2298c902ac92fdf649cc07d1b7d491a241c5cac8be84dd84464db7d8b/pytz-2016.4.tar.gz#md5=a3316cf3842ed0375ba5931914239d97
 RUN tar -zxvf pytz-2016.4.tar.gz
 RUN rm pytz-2016.4.tar.gz
