@@ -64,6 +64,7 @@ ADD nginx/graphite /etc/nginx/sites-available/graphite
 ADD uwsgi/graphite /etc/uwsgi/apps-available/graphite
 RUN ln -s /etc/nginx/sites-available/graphite /etc/nginx/sites-enabled/graphite
 RUN ln -s /etc/uwsgi/apps-available/graphite /etc/uwsgi/apps-enabled/graphite
+RUN mkdir -p /var/run/uwsgi/app/graphite
 
 # init
 WORKDIR /opt
