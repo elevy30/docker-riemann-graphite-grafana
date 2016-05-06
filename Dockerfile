@@ -10,7 +10,7 @@ WORKDIR /opt
 
 # requirements
 RUN apt-get update
-RUN apt-get install -y --no-install-recommends wget bzip2 vim git ca-certificates python python-dev python-django-tagging nginx uwsgi uwsgi-plugin-python python-twisted-core
+RUN apt-get install -y --no-install-recommends wget bzip2 vim git ca-certificates python python-dev python-django-tagging nginx uwsgi uwsgi-plugin-python python-twisted-core python-cairo-dev
 
 # dumb-init
 RUN wget --no-check-certificate https://github.com/Yelp/dumb-init/releases/download/v1.0.1/dumb-init_1.0.1_amd64.deb
@@ -39,6 +39,13 @@ RUN rm grafana-3.0.0-beta61461918338.linux-x64.tar.gz
 RUN ln -s grafana-3.0.0-beta61461918338 grafana
 
 # Graphite
+RUN wget https://pypi.python.org/packages/ad/30/5ab2298c902ac92fdf649cc07d1b7d491a241c5cac8be84dd84464db7d8b/pytz-2016.4.tar.gz#md5=a3316cf3842ed0375ba5931914239d97
+RUN tar -zxvf pytz-2016.4.tar.gz
+RUN rm pytz-2016.4.tar.gz
+WORKDIR /root/pytz-2016.4
+RUN python setup.py install
+
+WORKDIR /root
 RUN git clone https://github.com/graphite-project/whisper.git /root/whisper
 WORKDIR /root/whisper
 RUN git checkout ${GRAPHITE_VERSION}
@@ -64,6 +71,7 @@ ADD nginx/graphite /etc/nginx/sites-available/graphite
 ADD uwsgi/graphite.ini /etc/uwsgi/apps-available/graphite.ini
 RUN ln -s /etc/nginx/sites-available/graphite /etc/nginx/sites-enabled
 RUN ln -s /etc/uwsgi/apps-available/graphite.ini /etc/uwsgi/apps-enabled
+RUN chown -R www-data:www-data /opt/graphite/storage
 
 # init
 WORKDIR /opt
